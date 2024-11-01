@@ -27,9 +27,9 @@ export default defineConfig({
     //     })
     //   ],
       manifest: {
-          "short_name": "Smart Brand",
-          "name": "Smart Brand",
-          "description": "Smart Brand is an app for Brand to manage their business end-to-end.",
+          "short_name": "Bill Gen",
+          "name": "Bill Gen",
+          "description": "Generation of Bill Very Easily",
           "icons": [
           {
               "src": "favicon.ico",

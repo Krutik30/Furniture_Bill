@@ -11,7 +11,6 @@ import DocIllustration from "../../assets/illustration_doc";
 import { LoadingButton } from "@mui/lab";
 import logo from '/logo.svg';
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import NavSectionVertical from "./nav-section/NavSectionVertical";
 import NavbarAccount from "./nav-section/NavbarAccount";
 import useLogout from "../../hooks/useLogout";
