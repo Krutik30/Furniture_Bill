@@ -1,4 +1,3 @@
-import { loginSuccessToken, ownerCompanyType, userTypes } from "sb-schema-and-types";
 
 type cacheTypes<T> = {
   getItem: () => T,
@@ -41,22 +40,22 @@ export class LocalCacheAPI {
     }
 }
 
-export const authTokensCache: cacheTypes<loginSuccessToken['tokens']> = new LocalCacheAPI('authTokens');
-export const distinctSizesCache: cacheTypes<string[]> = new LocalCacheAPI('distinctSizes');
-export const distinctColorsCache: cacheTypes<string[]> = new LocalCacheAPI('distinctColors');
-export const ownerCompaniesCache: cacheTypes<ownerCompanyType[]> = new LocalCacheAPI('ownerCompanies');
-export const sessionOgCompanyCache: cacheTypes<ownerCompanyType> = new LocalCacheAPI('sessionOgCompany');
-export const teamMembersCache: cacheTypes<userTypes[]> = new LocalCacheAPI('teamMembers');
-export const userObjectCache: cacheTypes<loginSuccessToken['user']> = new LocalCacheAPI('userObject');
-export const userPermissionsCache = new LocalCacheAPI('userPermissions');
+// export const authTokensCache: cacheTypes<loginSuccessToken['tokens']> = new LocalCacheAPI('authTokens');
+// export const distinctSizesCache: cacheTypes<string[]> = new LocalCacheAPI('distinctSizes');
+// export const distinctColorsCache: cacheTypes<string[]> = new LocalCacheAPI('distinctColors');
+// export const ownerCompaniesCache: cacheTypes<ownerCompanyType[]> = new LocalCacheAPI('ownerCompanies');
+// export const sessionOgCompanyCache: cacheTypes<ownerCompanyType> = new LocalCacheAPI('sessionOgCompany');
+// export const teamMembersCache: cacheTypes<userTypes[]> = new LocalCacheAPI('teamMembers');
+// export const userObjectCache: cacheTypes<loginSuccessToken['user']> = new LocalCacheAPI('userObject');
+// export const userPermissionsCache = new LocalCacheAPI('userPermissions');
 
-export const clearLocalCache = () => {
-  authTokensCache.deleteItem();
-  distinctSizesCache.deleteItem();
-  ownerCompaniesCache.deleteItem();
-  sessionOgCompanyCache.deleteItem();
-  teamMembersCache.deleteItem();
-  userObjectCache.deleteItem();
-  userPermissionsCache.deleteItem();
-  localStorage.clear();
-}
+// export const clearLocalCache = () => {
+//   authTokensCache.deleteItem();
+//   distinctSizesCache.deleteItem();
+//   ownerCompaniesCache.deleteItem();
+//   sessionOgCompanyCache.deleteItem();
+//   teamMembersCache.deleteItem();
+//   userObjectCache.deleteItem();
+//   userPermissionsCache.deleteItem();
+//   localStorage.clear();
+// }

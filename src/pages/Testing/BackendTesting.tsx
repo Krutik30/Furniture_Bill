@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Fragment, useState } from 'react'
-import { customFetch } from '../../utils/customFetch'
+// import { customFetch } from '../../utils/customFetch'
 import { Box, Button, Input, Stack, Typography } from '@mui/material'
 
 type requestData = {
@@ -24,27 +24,27 @@ export const BackendTesting = () => {
     };
 
     const fetchData = () => {
-      customFetch(data.request, {
-        method: data.method,
-        // body: JSON.stringify(data.body),
-        body: {
-          query: {
-            _count:true,         
-           _max:{
-            updatedAt:true
-          }     
-        },       
-        queryType:"aggregate"
-      }
-      })
-        .then((res) => {
-          console.log(res);
-          setData({ ...data, data: typeof res == "object" ? JSON.stringify(res, null, 2) : res }) ;
-        })
-        .catch((err) => {
-          console.log(err);
-          setData({ ...data, data: err.stack || err.customMessage?.length !== 0 ? err.customMessage : err.message });
-        });
+    //   customFetch(data.request, {
+    //     method: data.method,
+    //     // body: JSON.stringify(data.body),
+    //     body: {
+    //       query: {
+    //         _count:true,         
+    //        _max:{
+    //         updatedAt:true
+    //       }     
+    //     },       
+    //     queryType:"aggregate"
+    //   }
+    //   })
+    //     .then((res) => {
+    //       console.log(res);
+    //       setData({ ...data, data: typeof res == "object" ? JSON.stringify(res, null, 2) : res }) ;
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       setData({ ...data, data: err.stack || err.customMessage?.length !== 0 ? err.customMessage : err.message });
+    //     });
     };
     return (
       <Fragment>
@@ -80,4 +80,3 @@ export const BackendTesting = () => {
       </Fragment>
     )
 }
-

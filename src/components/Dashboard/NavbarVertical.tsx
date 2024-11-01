@@ -2,8 +2,8 @@ import { useTheme } from "@emotion/react"
 import { SetterOrUpdater, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import useResponsive from "../../hooks/useResponsive";
 import { canVerticalNavbarCollapseState, isVerticalNavbarOpenState, verticalNavbarHoverState } from "../../utils/recoil_state";
-import { NAVBAR, toastErrorSettings, toastSuccessSettings } from "../../config";
-import { Box, Button, Drawer, Stack, Typography, styled } from "@mui/material";
+import { NAVBAR } from "../../config";
+import { Box, Button, Drawer, Stack, styled } from "@mui/material";
 import cssStyles from "../../utils/cssStyles";
 import Scrollbar from "../Scrollbar";
 import CollapseButton from "./CollapseButton";
@@ -11,9 +11,6 @@ import DocIllustration from "../../assets/illustration_doc";
 import { LoadingButton } from "@mui/lab";
 import logo from '/logo.svg';
 import { useState } from "react";
-import { customFetch } from "../../utils/customFetch";
-import { authTokensCache, clearLocalCache } from "../../utils/localCacheAPI";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import NavSectionVertical from "./nav-section/NavSectionVertical";
 import NavbarAccount from "./nav-section/NavbarAccount";
@@ -173,7 +170,6 @@ const RenderContent = ({canVerticalNavbarCollapse, isDesktop, isVerticalNavbarOp
 
 const LogoutButton = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const navigate = useNavigate();
   const logout = useLogout();
 
   const handleLogout = () => {
