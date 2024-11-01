@@ -32,8 +32,8 @@ export const routeObjectWithNavbarSettings = [
                 title: 'Account',
                 index: true,
                 async lazy() {
-                    const { HomePage } = await import('./pages/homepage/HomePage');
-                    return { element: <Page Component={HomePage} title="Profile" /> };
+                    const { UserPage } = await import('./pages/user/UserPage');
+                    return { element: <Page Component={UserPage} title="Profile" /> };
                 },
             },
             {
