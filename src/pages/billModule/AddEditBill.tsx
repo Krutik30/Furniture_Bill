@@ -17,6 +17,7 @@ export interface ProductType {
   breadth?: number;
   depth?: number;
   rate?: number;
+  price?: number;
   quantity?: number;
 }
 
@@ -46,11 +47,17 @@ export const AddEditBill = () => {
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const formattedData = data.products.reduce(
-      (acc: { type1: ProductType[]; type2: ProductType[] }, product) => {
+      (acc: { type1: ProductType[]; type2: ProductType[], totalAmount: number }, product) => {
+        if(product.type === 'type1'){
+          product.price = (product.length ?? 0) * (product.breadth ?? 0) * (product.depth ?? 0);
+        } else {
+          product.price = (product.rate ?? 0) * (product.quantity ?? 0);
+        }
         acc[product.type].push(product);
+        acc.totalAmount += product.price;
         return acc;
       },
-      { type1: [], type2: [] }
+      { type1: [], type2: [], totalAmount: 0 }
     );
     setPdfData(formattedData);
     handleDownload(formattedData);

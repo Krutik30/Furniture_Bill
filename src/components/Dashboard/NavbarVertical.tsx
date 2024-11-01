@@ -160,8 +160,8 @@ const RenderContent = ({canVerticalNavbarCollapse, isDesktop, isVerticalNavbarOp
           display: "block",
         }}
       >
-      <DocIllustration />
-      <LogoutButton />  
+      {/* <DocIllustration />
+      <LogoutButton />   */}
       </Stack>
     </Scrollbar>
   );

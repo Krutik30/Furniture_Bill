@@ -90,6 +90,7 @@ const PdfDocument = ({ formData }: any) => (
                     <Text style={styles.productText}>Length</Text>
                     <Text style={styles.productText}>Breath</Text>
                     <Text style={styles.productText}>Depth</Text>
+                    <Text style={styles.productText}>Price</Text>
                 </View>
                 {formData.type1.map((product: any, index: number) => {
                     console.log(formData)
@@ -102,9 +103,10 @@ const PdfDocument = ({ formData }: any) => (
                             ]}
                         >
                             <Text style={styles.productText}>{product.name}</Text>
-                            <Text style={styles.productText}>Length: {product.length}</Text>
-                            <Text style={styles.productText}>Breadth: {product.breadth}</Text>
-                            <Text style={styles.productText}>Depth: {product.depth}</Text>
+                            <Text style={styles.productText}>{product.length}</Text>
+                            <Text style={styles.productText}>{product.breadth}</Text>
+                            <Text style={styles.productText}>{product.depth}</Text>
+                            <Text style={styles.productText}>{product.price}</Text>
                         </View>
                     )
                 })}
@@ -118,6 +120,7 @@ const PdfDocument = ({ formData }: any) => (
                     <Text style={styles.productText}>NAME</Text>
                     <Text style={styles.productText}>Rate</Text>
                     <Text style={styles.productText}>Quality</Text>
+                    <Text style={styles.productText}>Price</Text>
                 </View>
                 {formData.type2.map((product: any, index: number) => (
                     <View
@@ -130,9 +133,31 @@ const PdfDocument = ({ formData }: any) => (
                         <Text style={styles.productText}>{product.name}</Text>
                         <Text style={styles.productText}>Rate: {product.rate}</Text>
                         <Text style={styles.productText}>Quantity: {product.quantity}</Text>
+                        <Text style={styles.productText}>Price: {product.price}</Text>
                     </View>
                 ))}
             </View>}
+            <View
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    marginTop: 10,
+                    paddingTop: 10,
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: 14,
+                        color: '#333',
+                        fontWeight: 'bold',
+                        borderBottom: '2px solid #4A90E2',
+
+                    }}
+                >
+                    Total Amount: {formData.totalAmount}
+                </Text>    
+            </View>
             <View
                 style={{
                     display: 'flex',
