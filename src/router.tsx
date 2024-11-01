@@ -55,16 +55,16 @@ export const routeObjectWithNavbarSettings = [
                 children: [
                   {
                       index: true,
-                      element: <Navigate to='/bill/add-new' />,
+                      element: <Navigate to='/bill/new' />,
                       showInNavbar: false,
                   },
                   {
-                      path: "/bill/add-new",
+                      path: "/bill/new",
                       index: true,
                       title: 'Add Bill',
                       async lazy() {
                           const { AddEditBill } = await import('./pages/billModule/AddEditBill');
-                          return { element: <Page Component={AddEditBill} title="Add Edit Bill" /> };
+                          return { element: <Page Component={AddEditBill} title="Bill" /> };
                       },
                   },
                 ]

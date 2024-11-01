@@ -80,7 +80,7 @@ const PdfDocument = ({ formData }: any) => (
             </View>
 
             {/* Products List */}
-            <View>
+            {formData.type1.length && <View>
                 <View
                     style={[
                         styles.headerRow
@@ -108,8 +108,8 @@ const PdfDocument = ({ formData }: any) => (
                         </View>
                     )
                 })}
-            </View>
-            <View break>
+            </View>}
+            {formData.type2.length && <View break>
                 <View
                     style={[
                         styles.headerRow
@@ -132,6 +132,23 @@ const PdfDocument = ({ formData }: any) => (
                         <Text style={styles.productText}>Quantity: {product.quantity}</Text>
                     </View>
                 ))}
+            </View>}
+            <View
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    marginTop: 10,
+                    paddingTop: 10,
+                }}
+            >
+                <Image
+                    src={user.signature}
+                    style={{
+                        width: 150,
+                        height: 100,
+                    }}
+                />
             </View>
         </Page>
     </Document>

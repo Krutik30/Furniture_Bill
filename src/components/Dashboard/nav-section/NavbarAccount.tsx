@@ -3,10 +3,6 @@ import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Avatar, Box, Link, Typography } from '@mui/material';
-// hooks
-// import useAuth from '../../hooks/useAuth';
-// routes
-import { sessionOgCompanyCache, userObjectCache } from '../../../utils/localCacheAPI';
 
 
 // ----------------------------------------------------------------------
@@ -30,10 +26,8 @@ NavbarAccount.propTypes = {
 
 export default function NavbarAccount({ isCollapse }: any) {
   
-  const userObj = userObjectCache.getItem();
-//   console.log("=-=-=--=-=-=-=-=-ogdata==-=-=-=-=-=-")
-//   console.log(userData)
-  const sessionOgCompanyData = sessionOgCompanyCache.getItem();
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  
   return (
     <Link 
       underline="none" 
@@ -49,7 +43,7 @@ export default function NavbarAccount({ isCollapse }: any) {
         }}
       >
         
-        <Avatar src={sessionOgCompanyData?.logo_url||''} alt="photoURL" />
+        <Avatar src={user.image || ''} alt="photoURL" />
         <Box
           sx={{
             ml: 2,
@@ -64,16 +58,8 @@ export default function NavbarAccount({ isCollapse }: any) {
             }),
           }}
         >
-          <Typography variant="subtitle2" noWrap>
-            {/* {ogData?.groupDetails?.groupName} */}
-            {sessionOgCompanyData?.ownercompany_name || "Loading..."} 
-          </Typography>
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-            {userObj?.user_name}
-          </Typography>
-            {/* financial year */}
-          <Typography variant="body2" noWrap sx={{ color: 'text.primary' }}>
-            FY: 2324
+            {user?.name}
           </Typography>
         </Box>
       </RootStyle>

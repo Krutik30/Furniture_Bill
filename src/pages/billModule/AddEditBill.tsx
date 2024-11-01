@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
 import { Box, Stack, Button, MenuItem, Select, TextField, Dialog, DialogTitle, DialogContent } from '@mui/material';
-import PdfDocument from './PdfDocument'; // Import for generating PDF
+import PdfDocument from './PdfDocument';
 import { pdf, PDFViewer } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 
@@ -24,61 +24,42 @@ export const AddEditBill = () => {
   const { register, handleSubmit, control } = useForm<FormData>({
     defaultValues: {
       products: [
-        { type: 'type1', name: 'Initial Product', length: 10, breadth: 5, depth: 3 } 
+        { type: 'type1', name: 'Initial Product', length: 10, breadth: 5, depth: 3 },
       ],
     },
   });
 
   const [isDialogue, setIsDialogue] = useState(false);
   const [pdfData, setPdfData] = useState<any>(null);
-  const [currentType, setCurrentType] = useState < 'type1' | 'type2'>('type1');
+  const [currentType, setCurrentType] = useState<'type1' | 'type2'>('type1');
 
   const { fields, append } = useFieldArray({
     control,
     name: 'products',
   });
 
-  const handleAddProduct = () => {
-    setIsDialogue(true);
+  const handleAddProduct = () => setIsDialogue(true);
+  const addProductDialogue = () => {
+    append({ type: currentType });
+    setIsDialogue(false);
   };
 
-  const addProductDialogue = () => {
-    append({ type: currentType })
-    setIsDialogue(false);
-  }
-
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log('Submitted Data:', data);
-    const formatedData: {
-      type1: ProductType[],
-      type2: ProductType[]
-    } = {
-      type1: [],
-      type2: []
-    }
-
-    data.products.map((product) => {
-      if(product.type === 'type1'){
-        formatedData.type1.push(product);
-      }else{
-        formatedData.type2.push(product);
-      }
-
-      return product;
-    })
-    setPdfData(formatedData);
-    handleDownload(formatedData)
+    const formattedData = data.products.reduce(
+      (acc: { type1: ProductType[]; type2: ProductType[] }, product) => {
+        acc[product.type].push(product);
+        return acc;
+      },
+      { type1: [], type2: [] }
+    );
+    setPdfData(formattedData);
+    handleDownload(formattedData);
   };
 
   const generatePdfBlob = async (formData: any): Promise<Blob | null> => {
     try {
-      // Generate the PDF content
       const pdfContent = await pdf(<PdfDocument formData={formData} />);
-
-      // Retrieve the PDF blob using the toBlob method
-      const blob = await pdfContent.toBlob();
-
-      return blob;
+      return await pdfContent.toBlob();
     } catch (error) {
       console.error('Error generating PDF blob:', error);
       return null;
@@ -86,89 +67,90 @@ export const AddEditBill = () => {
   };
 
   const handleDownload = async (formData: any) => {
-    // Generate the PDF blob
     const blob = await generatePdfBlob(formData);
-
-    // Trigger the download with a specified filename
-    if (blob) {
-      saveAs(blob, 'generated-pdf.pdf');
-    }
+    if (blob) saveAs(blob, 'generated-pdf.pdf');
   };
 
   return (
-    <Box>
+    <Box sx={{ padding: 2, maxWidth: '100%', margin: 'auto' }}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={2}>
-
+        <Stack spacing={2} sx={{ width: { xs: '100%', sm: '80%', md: '60%' }, margin: 'auto' }}>
           {fields.map((field, index) => (
-            <Box key={field.id} border="1px solid #ddd" padding={2} borderRadius={1}>
-              <TextField label="Name" {...register(`products.${index}.name` as const)} />
+            <Box
+              key={field.id}
+              sx={{
+                border: '1px solid #ddd',
+                padding: 2,
+                borderRadius: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+                backgroundColor: index % 2 === 0 ? '#fafafa' : '#f0f0f0',
+              }}
+            >
+              <TextField
+                label="Name"
+                {...register(`products.${index}.name` as const)}
+                fullWidth
+                sx={{ marginBottom: 1 }}
+              />
 
               {field.type === 'type1' && (
                 <>
-                  <TextField label="Length" type="number" {...register(`products.${index}.length` as const)} />
-                  <TextField label="Breadth" type="number" {...register(`products.${index}.breadth` as const)} />
-                  <TextField label="Depth" type="number" {...register(`products.${index}.depth` as const)} />
+                  <TextField label="Length" type="number" {...register(`products.${index}.length` as const)} fullWidth />
+                  <TextField label="Breadth" type="number" {...register(`products.${index}.breadth` as const)} fullWidth />
+                  <TextField label="Depth" type="number" {...register(`products.${index}.depth` as const)} fullWidth />
                 </>
               )}
 
               {field.type === 'type2' && (
                 <>
-                  <TextField label="Rate" type="number" {...register(`products.${index}.rate` as const)} />
-                  <TextField label="Quantity" type="number" {...register(`products.${index}.quantity` as const)} />
+                  <TextField label="Rate" type="number" {...register(`products.${index}.rate` as const)} fullWidth />
+                  <TextField label="Quantity" type="number" {...register(`products.${index}.quantity` as const)} fullWidth />
                 </>
               )}
             </Box>
           ))}
 
-          <Button variant="contained" onClick={handleAddProduct}>
+          <Button variant="contained" onClick={handleAddProduct} fullWidth sx={{ padding: 1 }}>
             Add Product
           </Button>
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" fullWidth sx={{ padding: 1 }}>
             Submit
           </Button>
-
-
-          <Dialog
-            open={isDialogue}
-            onClose={() => setIsDialogue(false)}
-          >
-            <DialogTitle>
-              Which type?
-            </DialogTitle>
-            <DialogContent>
-              <Select
-                defaultValue={currentType || 'type1'}
-                displayEmpty
-                onChange={(e) => {
-                  e.preventDefault();
-                  // @ts-expect-error nai aave error
-                  setCurrentType(e.target.value);
-                }}
-              >
-                <MenuItem value="type1">Product Type 1</MenuItem>
-                <MenuItem value="type2">Product Type 2</MenuItem>
-              </Select>
-
-              <Button
-                variant='contained'
-                size='large'
-                sx={{
-                  marginLeft: 5
-                }}
-                onClick={addProductDialogue}
-              >
-                Add
-              </Button>
-            </DialogContent>
-          </Dialog>
         </Stack>
       </form>
 
+      <Dialog open={isDialogue} onClose={() => setIsDialogue(false)}>
+        <DialogTitle>Choose Product Type</DialogTitle>
+        <DialogContent
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
+          }}
+        >
+          <Select
+            value={currentType}
+            onChange={(e) => setCurrentType(e.target.value as 'type1' | 'type2')}
+            sx={{ minWidth: 150, marginBottom: 2 }}
+          >
+            <MenuItem value="type1">Product Type 1</MenuItem>
+            <MenuItem value="type2">Product Type 2</MenuItem>
+          </Select>
+          <Button variant="contained" onClick={addProductDialogue} fullWidth sx={{ padding: 1 }}>
+            Add
+          </Button>
+        </DialogContent>
+      </Dialog>
+
       {pdfData && (
-        <PDFViewer width="100%" height={800}>
-          <PdfDocument formData={pdfData} />
-        </PDFViewer>
+        <Box sx={{ display: { xs: 'none', md: 'block' }, marginTop: 4 }}>
+          <PDFViewer width="100%" height={800}>
+            <PdfDocument formData={pdfData} />
+          </PDFViewer>
+        </Box>
       )}
     </Box>
   );
