@@ -30,6 +30,8 @@ export const AddEditBill = () => {
     },
   });
 
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
   const [isDialogue, setIsDialogue] = useState(false);
   const [pdfData, setPdfData] = useState<any>(null);
   const [currentType, setCurrentType] = useState<'type1' | 'type2'>('type1');
@@ -49,7 +51,7 @@ export const AddEditBill = () => {
     const formattedData = data.products.reduce(
       (acc: { type1: ProductType[]; type2: ProductType[], totalAmount: number }, product) => {
         if(product.type === 'type1'){
-          product.price = (product.length ?? 0) * (product.breadth ?? 0) * (product.depth ?? 0);
+          product.price = (product.length ?? 0) * (product.breadth ?? 0) * (product.depth ?? 0) * (user.rate ?? 0);
         } else {
           product.price = (product.rate ?? 0) * (product.quantity ?? 0);
         }
@@ -104,16 +106,16 @@ export const AddEditBill = () => {
 
               {field.type === 'type1' && (
                 <>
-                  <TextField label="Length" type="number" {...register(`products.${index}.length` as const)} fullWidth />
-                  <TextField label="Breadth" type="number" {...register(`products.${index}.breadth` as const)} fullWidth />
-                  <TextField label="Depth" type="number" {...register(`products.${index}.depth` as const)} fullWidth />
+                  <TextField label="Length" type="number" {...register(`products.${index}.length` as const)} fullWidth inputProps={{ step: 'any' }} />
+                  <TextField label="Breadth" type="number" {...register(`products.${index}.breadth` as const)} fullWidth inputProps={{ step: 'any' }} />
+                  <TextField label="Depth" type="number" {...register(`products.${index}.depth` as const)} fullWidth inputProps={{ step: 'any' }} />
                 </>
               )}
 
               {field.type === 'type2' && (
                 <>
-                  <TextField label="Rate" type="number" {...register(`products.${index}.rate` as const)} fullWidth />
-                  <TextField label="Quantity" type="number" {...register(`products.${index}.quantity` as const)} fullWidth />
+                  <TextField label="Rate" type="number" {...register(`products.${index}.rate` as const)} fullWidth inputProps={{ step: 'any' }} />
+                  <TextField label="Quantity" type="number" {...register(`products.${index}.quantity` as const)} fullWidth inputProps={{ step: 'any' }} />
                 </>
               )}
             </Box>
